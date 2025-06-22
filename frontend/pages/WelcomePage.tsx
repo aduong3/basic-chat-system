@@ -12,16 +12,31 @@ When they get matched with a random person, they will receive a random name to s
 The users can add each other to remove that anonymity if they desire.
 */
 
+const inputFormStyle = "text-2xl py-2 px-2";
+
 export default function WelcomePage() {
   const [nickname, setNickname] = useState<string>("");
   const [chatroom, setChatroom] = useState<string>("");
-  const isAlphaNumeric = (str: string) => /^[a-zA-Z0-9]+$/.test(str);
+  const isAlphaNumeric = (str: string): boolean => {
+    str = str.trim();
+    return /^[a-zA-Z0-9]+$/.test(str);
+  };
 
-  const inputFormStyle = "text-2xl py-2 px-2";
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (
+      nickname === "" ||
+      chatroom === "" ||
+      !isAlphaNumeric(nickname) ||
+      !isAlphaNumeric(chatroom)
+    )
+      return;
+    console.log(nickname, chatroom);
+  };
 
   return (
     <div className="w-full min-h-svh flex justify-center items-center">
-      <form className="flex flex-col gap-8">
+      <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="Nickname"
