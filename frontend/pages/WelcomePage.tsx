@@ -17,25 +17,31 @@ const inputFormStyle = "text-2xl py-2 px-2";
 export default function WelcomePage() {
   const [nickname, setNickname] = useState<string>("");
   const [chatroom, setChatroom] = useState<string>("");
+
   const isAlphaNumeric = (str: string): boolean => {
     str = str.trim();
     return /^[a-zA-Z0-9]+$/.test(str);
   };
 
+  // if the nickname and chatroom is not empty, and if they are both alphanumeric... Then we have a valid form.
+  const isFormValid =
+    nickname.trim() !== "" &&
+    chatroom.trim() !== "" &&
+    isAlphaNumeric(nickname) &&
+    isAlphaNumeric(chatroom);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (
-      nickname === "" ||
-      chatroom === "" ||
-      !isAlphaNumeric(nickname) ||
-      !isAlphaNumeric(chatroom)
-    )
+    if (!isFormValid) {
+      console.log("Information is empty or not alphanumeric");
       return;
+    }
+
     console.log(nickname, chatroom);
   };
 
   return (
-    <div className="w-full min-h-svh flex justify-center items-center">
+    <div className="w-full min-h-svh flex flex-col gap-6 justify-center items-center">
       <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
         <input
           type="text"
@@ -51,7 +57,12 @@ export default function WelcomePage() {
           onChange={(e) => setChatroom(e.target.value)}
           className={inputFormStyle}
         />
-        <button type="submit">Submit</button>
+        <button
+          type="submit"
+          className="bg-blue-300 py-2 px-3 rounded-lg font-semibold"
+        >
+          Submit
+        </button>
       </form>
     </div>
   );

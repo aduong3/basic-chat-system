@@ -23,8 +23,7 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
-    "esModuleInterop": true,
-    "types": ["jest", "node"]
+    "esModuleInterop": true
   },
   "include": ["src"]
 }

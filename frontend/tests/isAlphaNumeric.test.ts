@@ -1,7 +1,6 @@
 import { isAlphaNumeric } from "./isAlphaNumeric";
 
 //test cases: empty string, special characters, letters only, numbers only, alphanumeric, spaces/whitespace
-
 describe("isAlphaNumeric", () => {
   // FALSE
   it("should return false for an empty string", () => {
@@ -37,6 +36,7 @@ describe("isAlphaNumeric", () => {
     expect(isAlphaNumeric("TesTinG43iS2FuN1")).toBe(true);
   });
 
+  // This is true because of the trim() function.
   it("should return true if there are any leading or trailing spaces", () => {
     expect(isAlphaNumeric(" test")).toBe(true);
     expect(isAlphaNumeric("test ")).toBe(true);
