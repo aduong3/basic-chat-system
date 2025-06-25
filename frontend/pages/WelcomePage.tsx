@@ -36,7 +36,6 @@ export default function WelcomePage() {
       console.log("Information is empty or not alphanumeric");
       return;
     }
-
     console.log(nickname, chatroom);
   };
 
@@ -47,14 +46,14 @@ export default function WelcomePage() {
           type="text"
           placeholder="Nickname"
           value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
+          onChange={(e) => setNickname(e.target.value.trim())}
           className={inputFormStyle}
         />
         <input
           type="text"
           placeholder="Chatroom ID"
           value={chatroom}
-          onChange={(e) => setChatroom(e.target.value)}
+          onChange={(e) => setChatroom(e.target.value.trim())}
           className={inputFormStyle}
         />
         <button

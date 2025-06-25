@@ -11,9 +11,11 @@ app.use(
 
 // SET ROUTES HERE
 
-app.all("*", (req: Request, res: Response, next: NextFunction) => {
+app.all(/.*/, (req: Request, res: Response, next: NextFunction) => {
   res.status(404).json({
     status: "fail",
     message: "URL not found!",
   });
 });
+
+export default app;
