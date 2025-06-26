@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { connectSocket, createRoom, joinRoom } from "../utils/websocketAPI";
+import { useNavigate } from "react-router-dom";
 
 /*
 Goal of Welcome Page:
@@ -17,6 +19,7 @@ const inputFormStyle = "text-2xl py-2 px-2";
 export default function WelcomePage() {
   const [nickname, setNickname] = useState<string>("");
   const [chatroom, setChatroom] = useState<string>("");
+  const navigate = useNavigate();
 
   const isAlphaNumeric = (str: string): boolean => {
     str = str.trim();
@@ -30,18 +33,26 @@ export default function WelcomePage() {
     isAlphaNumeric(nickname) &&
     isAlphaNumeric(chatroom);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleRoom = async (e: React.FormEvent, action: "create" | "join") => {
     e.preventDefault();
     if (!isFormValid) {
       console.log("Information is empty or not alphanumeric");
       return;
     }
-    console.log(nickname, chatroom);
+    connectSocket();
+    let response;
+    if (action === "create") {
+      response = await createRoom({ nickname, room: chatroom });
+    } else {
+      response = await joinRoom({ nickname, room: chatroom });
+    }
+    if (response.success) navigate(`/chat/${chatroom}`);
+    else alert(response.message);
   };
 
   return (
     <div className="w-full min-h-svh flex flex-col gap-6 justify-center items-center">
-      <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
+      <div className="flex flex-col gap-8">
         <input
           type="text"
           placeholder="Nickname"
@@ -56,13 +67,27 @@ export default function WelcomePage() {
           onChange={(e) => setChatroom(e.target.value.trim())}
           className={inputFormStyle}
         />
-        <button
-          type="submit"
-          className="bg-blue-300 py-2 px-3 rounded-lg font-semibold"
-        >
-          Submit
-        </button>
-      </form>
+        <div className="flex justify-evenly items-center">
+          <button
+            type="submit"
+            onClick={(e) => {
+              handleRoom(e, "create");
+            }}
+            className="bg-blue-300 py-2 px-3 rounded-lg font-semibold "
+          >
+            Create
+          </button>
+          <button
+            type="submit"
+            onClick={(e) => {
+              handleRoom(e, "join");
+            }}
+            className="bg-blue-300 py-2 px-3 rounded-lg font-semibold"
+          >
+            Join
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
