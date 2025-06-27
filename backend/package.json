@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "nodemon server.ts"
+    "start": "nodemon server.ts",
+    "test": "jest"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -12,8 +13,13 @@
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.0.4",
+    "@types/socket.io-client": "^1.4.36",
+    "jest": "^29.7.0",
     "nodemon": "^3.1.10",
+    "socket.io-client": "^4.8.1",
+    "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2"
   }
 }

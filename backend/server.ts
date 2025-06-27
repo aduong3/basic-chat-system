@@ -19,14 +19,14 @@ const io = new Server(server, {
 
 // 3. Listen for new socket connections
 io.on("connection", (socket) => {
-  console.log("A user connected:", socket.id);
+  // console.log("A user connected:", socket.id);
 
   socket.data.nickname = null;
   socket.data.room = null;
 
   socket.on("create_room", ({ nickname, room }, callback) => {
     if (activeRooms.has(room)) {
-      console.log(activeRooms);
+      //console.log(activeRooms);
       if (callback) {
         callback({
           success: false,
@@ -105,6 +105,9 @@ io.on("connection", (socket) => {
 });
 
 // 4. Start server listening on PORT
-server.listen(PORT, () => {
-  console.log(`Server is running on PORT ${PORT}`);
-});
+if (process.env.NODE_ENV !== "test")
+  server.listen(PORT, () => {
+    console.log(`Server is running on PORT ${PORT}`);
+  });
+
+export { server, io };
